@@ -10,7 +10,13 @@
 
 <body>
     <main class="container">
-        <h1>Eventos</h1>
+        <h1>Eventos @if ($tipo) ({{ $tipo }}) @endif</h1>
+        <p>
+            <a href="/eventos">todos</a> ·
+            <a href="/eventos?tipo=workshop">workshops</a> ·
+            <a href="/eventos?tipo=palestra">palestras</a> ·
+            <a href="/eventos?tipo=hackathon">hackathons</a>
+        </p>
         <table>
             <thead>
                 <tr>

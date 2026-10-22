@@ -65,8 +65,15 @@ $eventos = [
 ];
 
 Route::get('/eventos', function () use ($eventos) {
+    $tipo = request('tipo');
+
+    if ($tipo) {
+        $eventos = array_filter($eventos,
+        fn ($evento) => $evento['tipo'] === $tipo);
+    }
     return view('eventos.index', [
         'eventos' => $eventos,
+        'tipo' => $tipo,
     ]);
 });
 
