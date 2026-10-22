@@ -69,3 +69,19 @@ Route::get('/eventos', function () use ($eventos) {
         'eventos' => $eventos,
     ]);
 });
+
+Route::get('/eventos/{id}', function (int $id) use ($eventos) {
+    $evento = null;
+
+    foreach ($eventos as $item) {
+        if ($item['id'] === $id) {
+            $evento = $item;
+        }
+    }
+
+    if ($evento === null) {
+        abort(404);
+    }
+
+    return view('eventos.show', ['evento' => $evento]);
+}) ->whereNumber('id');

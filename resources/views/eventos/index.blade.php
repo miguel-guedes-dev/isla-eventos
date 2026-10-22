@@ -25,7 +25,7 @@
                 @forelse ($eventos as $evento)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $evento['titulo'] }}</td>
+                        <td><a href="/eventos/{{ $evento['id'] }}">{{ $evento['titulo'] }}</a></td>
                         <td>{{ date('d/m/Y', strtotime($evento['data'])) }}</td>
                         <td>
                             @if ($evento['inscritos'] >= $evento['vagas'])
