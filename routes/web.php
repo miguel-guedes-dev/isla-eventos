@@ -92,3 +92,14 @@ Route::get('/eventos/{id}', function (int $id) use ($eventos) {
 
     return view('eventos.show', ['evento' => $evento]);
 }) ->whereNumber('id');
+
+Route::get('/eventos/proximos', function () use ($eventos) {
+    $hoje = date('Y-m-d');
+    $proximos = array_filter($eventos, fn ($evento) => $evento['data'] >= $hoje);
+    usort($proximos, fn ($a, $b) => $a['data'] <=> $b['data']);
+
+    return view('eventos.index', [
+        'eventos' => $proximos,
+        'tipo' => null,
+    ]);
+});
