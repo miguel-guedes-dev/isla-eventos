@@ -15,3 +15,10 @@
     @endforelse
 </div>
 @endsection
+@push('estilos')
+<style>
+    .etiqueta-workshop { color: #1d6fb8; }
+    .etiqueta-palestra { color: #2e7d32; }
+    .etiqueta-hackathon { color: #c2410c; }
+</style>
+@endpush
