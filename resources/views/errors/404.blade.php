@@ -9,6 +9,6 @@
 <body>
     <main class="container">
         <h1>404 - Página não encontrada</h1>
-        <a href="/eventos">Voltar aos eventos</a>
+        <a href="{{ route('eventos.index') }}">Voltar aos eventos</a>
 </body>
 </html>

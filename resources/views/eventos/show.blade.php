@@ -15,7 +15,7 @@
             <p>{{ date('d/m/Y', strtotime($evento['data'])) }}</p>
             <p>{{ $evento['local'] }}</p>
             <p>{{ 'Inscritos: ' . $evento['inscritos'] . ' de ' . $evento['vagas']  }}</p>
-            <a href="/eventos">Voltar aos Eventos</a>
+            <a href="{{ route('eventos.index') }}">Voltar aos Eventos</a>
             </main>
     </body>
 
