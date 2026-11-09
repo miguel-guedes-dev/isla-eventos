@@ -12,9 +12,11 @@ class EventoController extends Controller
         $eventos = config('eventos');
         $tipo = $request->query('tipo');
 
-        if ($tipo){
-            $eventos = array_filter($eventos,
-            fn ($evento) => $evento['tipo'] === $tipo);
+        if ($tipo) {
+            $eventos = array_filter(
+                $eventos,
+                fn($evento) => $evento['tipo'] === $tipo
+            );
         }
 
         return view('eventos.index', [
@@ -26,18 +28,35 @@ class EventoController extends Controller
     {
         $evento = $this->procurar($id);
 
-        if($evento === null){
+        if ($evento === null) {
             abort(404);
         }
-        return view ('eventos.show', ['evento' => $evento]);
+        return view('eventos.show', ['evento' => $evento]);
     }
     private function procurar(int $id): ?array
     {
-        foreach (config('eventos') as $evento){
-            if ($evento['id'] === $id){
+        foreach (config('eventos') as $evento) {
+            if ($evento['id'] === $id) {
                 return $evento;
             }
         }
         return null;
+    }
+    public function porTipo(string $tipo): View
+    {
+        $eventos = config('eventos');
+
+        $tipos = array_column($eventos, 'tipo');
+
+        if (!in_array($tipo, $tipos)) {
+            abort(404);
+        }
+
+        $eventos = array_filter($eventos, fn($evento) =>  $evento['tipo'] === $tipo);
+
+        return view('eventos.index', [
+            'eventos' => $eventos,
+            'tipo' => $tipo,
+        ]);
     }
 }

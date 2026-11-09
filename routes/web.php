@@ -69,6 +69,9 @@ Route::get('/eventos/proximos', function () {
     ]);
 });
 
+Route::get('/eventos/tipo/{tipo}', [EventoController::class, 'porTipo'])
+    ->name('eventos.tipo');
+
 Route::fallback(function () {
     return response()->view('errors.404', [], 404);
 });
