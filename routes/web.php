@@ -2,10 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventoController;
+use App\Http\Controllers\InicioController;
 
-Route::get('/', function () {
-    return view('inicio');
-})->name('inicio');
+Route::get('/', [InicioController::class, 'index'])->name('inicio');
 
 Route::get('/ola', function () {
     return ('Olá, DWDM!');
@@ -61,11 +60,15 @@ Route::get('/eventos/{id}', [EventoController::class, 'show'])
 Route::get('/eventos/proximos', function () {
     $eventos = config('eventos');
     $hoje = date('Y-m-d');
-    $proximos = array_filter($eventos, fn ($evento) => $evento['data'] >= $hoje);
-    usort($proximos, fn ($a, $b) => $a['data'] <=> $b['data']);
+    $proximos = array_filter($eventos, fn($evento) => $evento['data'] >= $hoje);
+    usort($proximos, fn($a, $b) => $a['data'] <=> $b['data']);
 
     return view('eventos.index', [
         'eventos' => $proximos,
         'tipo' => null,
     ]);
+});
+
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
 });
