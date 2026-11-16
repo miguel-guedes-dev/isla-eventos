@@ -23,3 +23,6 @@ O @push/@stack serve para acrescentar coisas a uma pilha: o layout tem o @stack(
 PL05 - A3: o erro das sessões
 Primeira linha do erro: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'isla_eventos.sessions' doesn't exist (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: isla_eventos, SQL: select * from `sessions` where `id` = LIZSwYsvppT2sTWu83J5evhPQr2UoQsKzuknl5Hr limit 1)
 O Laravel procura a tabela sessions porque no .env o SESSION_DRIVER é database, ou seja, as sessões são guardadas numa tabela da base de dados, e como a base isla_eventos é nova e está vazia, essa tabela ainda não existe (só passa a existir depois de correr o php artisan migrate).
+
+PL05 - A4: as tabelas do Laravel
+Depois do php artisan migrate a página voltou a funcionar. A base de dados tem 9 tabelas (contadas com php artisan tinker --execute="echo count(DB::select('SHOW TABLES'));"), e no phpMyAdmin são as mesmas 9. O php artisan db:show deu erro (Table 'performance_schema.session_status' doesn't exist) porque o MySQL do XAMPP não tem essa tabela de sistema, que o db:show consulta para contar as ligações; a ligação à base de dados em si está bem.
