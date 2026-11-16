@@ -32,3 +32,9 @@ No phpMyAdmin, a coluna titulo ficou varchar(150), a coluna data ficou date e a 
 
 PL05 - B3: status e rollback
 No migrate:status a migration create_eventos_table ficou no lote (batch) 2; as três migrations que já vinham com o Laravel (users, cache e jobs) estão no lote 1. O php artisan migrate:rollback desfaz o último lote, por isso a tabela eventos desapareceu do phpMyAdmin. O método da migration que foi chamado foi o down(), que faz Schema::dropIfExists('eventos'). Depois o php artisan migrate voltou a criar a tabela (método up()).
+
+PL05 - C2: os ids do seeder
+Depois do php artisan db:seed --class=EventoSeeder ficaram os cinco eventos na tabela, e a base de dados deu os ids pela ordem em que foram inseridos: Workshop de Laravel = 1, Palestra: Carreiras em Cibersegurança = 2, Hackathon ISLA 24h = 3, Git e GitHub para iniciantes = 4 e Conversa com antigos alunos DWDM = 5.
+
+PL05 - C3: migrate:fresh --seed
+O php artisan migrate:fresh --seed faz, por ordem: 1) apaga todas as tabelas da base de dados, 2) corre todas as migrations outra vez (método up()), recriando as tabelas vazias, e 3) corre o DatabaseSeeder (por causa do --seed), que chama o EventoSeeder e volta a inserir os cinco eventos. Nunca o correria num servidor com inscrições reais porque apaga todos os dados da base de dados, incluindo as inscrições, e só voltam os dados de exemplo do seeder, por isso perdiam-se dados reais para sempre.
