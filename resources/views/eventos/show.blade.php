@@ -11,5 +11,8 @@
     <p>{{ date('d/m/Y', strtotime($evento->data)) }}</p>
     <p>{{ $evento->local }}</p>
     <p>{{ 'Inscritos: ' . $evento->inscritos . ' de ' . $evento->vagas }}</p>
+    @if ($evento->descricao)
+        <p>{{ $evento->descricao }}</p>
+    @endif
     <a href="{{ route('eventos.index') }}">Voltar aos Eventos</a>
 @endsection
