@@ -26,3 +26,9 @@ O Laravel procura a tabela sessions porque no .env o SESSION_DRIVER é database,
 
 PL05 - A4: as tabelas do Laravel
 Depois do php artisan migrate a página voltou a funcionar. A base de dados tem 9 tabelas (contadas com php artisan tinker --execute="echo count(DB::select('SHOW TABLES'));"), e no phpMyAdmin são as mesmas 9. O php artisan db:show deu erro (Table 'performance_schema.session_status' doesn't exist) porque o MySQL do XAMPP não tem essa tabela de sistema, que o db:show consulta para contar as ligações; a ligação à base de dados em si está bem.
+
+PL05 - B2: a tabela eventos
+No phpMyAdmin, a coluna titulo ficou varchar(150), a coluna data ficou date e a coluna vagas ficou smallint(5) UNSIGNED. O vagas é unsigned porque um número de vagas nunca pode ser negativo; assim a coluna só aceita valores de 0 para cima (0 a 65535), em vez de -32768 a 32767.
+
+PL05 - B3: status e rollback
+No migrate:status a migration create_eventos_table ficou no lote (batch) 2; as três migrations que já vinham com o Laravel (users, cache e jobs) estão no lote 1. O php artisan migrate:rollback desfaz o último lote, por isso a tabela eventos desapareceu do phpMyAdmin. O método da migration que foi chamado foi o down(), que faz Schema::dropIfExists('eventos'). Depois o php artisan migrate voltou a criar a tabela (método up()).
