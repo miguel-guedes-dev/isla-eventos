@@ -38,3 +38,6 @@ Depois do php artisan db:seed --class=EventoSeeder ficaram os cinco eventos na t
 
 PL05 - C3: migrate:fresh --seed
 O php artisan migrate:fresh --seed faz, por ordem: 1) apaga todas as tabelas da base de dados, 2) corre todas as migrations outra vez (método up()), recriando as tabelas vazias, e 3) corre o DatabaseSeeder (por causa do --seed), que chama o EventoSeeder e volta a inserir os cinco eventos. Nunca o correria num servidor com inscrições reais porque apaga todos os dados da base de dados, incluindo as inscrições, e só voltam os dados de exemplo do seeder, por isso perdiam-se dados reais para sempre.
+
+PL05 - D3: o erro do stdClass
+Erro na página inicial: Error - Cannot use object of type stdClass as array (resources\views\components\cartao-evento.blade.php:4). Acontece porque o Query Builder devolve cada linha da tabela como um objeto (stdClass) e não como um array, e a view ainda lia os dados com $evento['tipo'] (sintaxe de array); com objetos tem de ser $evento->tipo.
