@@ -41,3 +41,16 @@ O php artisan migrate:fresh --seed faz, por ordem: 1) apaga todas as tabelas da 
 
 PL05 - D3: o erro do stdClass
 Erro na página inicial: Error - Cannot use object of type stdClass as array (resources\views\components\cartao-evento.blade.php:4). Acontece porque o Query Builder devolve cada linha da tabela como um objeto (stdClass) e não como um array, e a view ainda lia os dados com $evento['tipo'] (sintaxe de array); com objetos tem de ser $evento->tipo.
+
+PL05 - D4: códigos HTTP
+/ = 200
+/eventos = 200
+/eventos?tipo=workshop = 200
+/eventos?tipo=xpto = 200 (a página abre normalmente e mostra o alerta "Não há eventos para mostrar", porque o filtro só devolve uma lista vazia, não é erro)
+/eventos/2 = 200 (mostra o alerta "Este evento está esgotado", porque tem 120 inscritos em 120 vagas)
+/eventos/99 = 404 (o find devolve null e o controller faz abort(404))
+/eventos/tipo/xpto = 404 (a lista vem vazia e o controller faz abort(404))
+Ao mudar o título de um evento no phpMyAdmin e recarregar, a página mostra o título novo sem mexer em código, porque os dados vêm da base de dados.
+
+PL05 - D5: a injeção que não acontece
+Em /eventos?tipo=' OR '1'='1 não aparece nenhum evento (aparece o alerta "Não há eventos para mostrar"), porque o texto é tratado só como um valor a comparar com a coluna tipo e nenhum evento tem esse tipo. O SQL gerado é: select * from `eventos` where `tipo` = ?. O ? é um marcador (placeholder): o valor vai separado da query, por isso a base de dados trata-o sempre como dados e nunca como código SQL, e o ' OR '1'='1 não consegue alterar a query. É assim que o Query Builder protege contra injeção de SQL.
