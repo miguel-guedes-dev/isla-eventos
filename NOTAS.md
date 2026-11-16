@@ -15,3 +15,11 @@ Na listagem aparece o texto do script escrito no ecrã, como texto normal, e nã
 
 PL04 - E2: o mesmo título com {!! !!}
 O alerta "XSS" aparece no ecrã e o script é executado. O texto do script não aparece na página, só o resto do título. Isto acontece porque o {!! !!} não escapa nada, por isso o browser recebe a etiqueta <script> como HTML verdadeiro e executa o código. Se o título viesse de um utilizador, qualquer pessoa podia pôr código malicioso na página (XSS). Por isso o {!! !!} nunca leva dados que vieram de utilizadores.
+
+PL04 - Desafio: diferença entre @push/@stack e @section/@yield
+O @section/@yield serve para preencher um buraco com nome no layout: o layout tem o @yield('conteudo') e cada página define o seu @section('conteudo'), que ocupa esse sítio. Cada página só preenche o seu buraco uma vez. Uso-o para o que cada página tem de diferente e que existe sempre, como o título e o conteúdo principal.
+O @push/@stack serve para acrescentar coisas a uma pilha: o layout tem o @stack('estilos') e várias páginas ou componentes podem fazer @push('estilos'), e tudo o que for empilhado aparece lá, uma coisa a seguir à outra, sem se substituírem. Uso-o para extras opcionais que só algumas páginas precisam, como estilos (CSS) ou scripts (JavaScript) específicos de uma página.
+
+PL05 - A3: o erro das sessões
+Primeira linha do erro: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'isla_eventos.sessions' doesn't exist (Connection: mysql, Host: 127.0.0.1, Port: 3306, Database: isla_eventos, SQL: select * from `sessions` where `id` = LIZSwYsvppT2sTWu83J5evhPQr2UoQsKzuknl5Hr limit 1)
+O Laravel procura a tabela sessions porque no .env o SESSION_DRIVER é database, ou seja, as sessões são guardadas numa tabela da base de dados, e como a base isla_eventos é nova e está vazia, essa tabela ainda não existe (só passa a existir depois de correr o php artisan migrate).
